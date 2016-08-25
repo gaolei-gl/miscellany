@@ -11,7 +11,8 @@ version := "0.1.0"
 resolvers ++= Seq(
   Resolver.mavenLocal,
   Resolver.sonatypeRepo("releases"),
-  Resolver.sonatypeRepo("snapshots")
+  Resolver.sonatypeRepo("snapshots"),
+  "softprops-maven" at "http://dl.bintray.com/content/softprops/maven"
 )
 
 libraryDependencies ++= Seq(
@@ -34,5 +35,8 @@ libraryDependencies ++= Seq(
   "org.json4s" % "json4s-native_2.11" % "3.4.0",
   "ch.qos.logback" % "logback-classic" % "1.1.7",
   "ch.qos.logback" % "logback-core" % "1.1.7",
-  "ch.qos.logback" % "logback-access" % "1.1.7"
+  "ch.qos.logback" % "logback-access" % "1.1.7",
+  "com.chuusai" %% "shapeless" % "2.3.1",
+  "me.lessis" %% "courier" % "0.1.3"
+
 )
