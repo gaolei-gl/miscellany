@@ -26,6 +26,6 @@ object sendMailByCourier {
       case Failure(e) => println(e)
     }
     // todo the main thread need to keep alive until the future is completed
-    Thread.sleep(1000*10)
+    Thread.sleep(1000 * 10)
   }
 }
