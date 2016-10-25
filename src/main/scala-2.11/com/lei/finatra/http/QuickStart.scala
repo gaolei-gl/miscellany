@@ -1,8 +1,8 @@
-package com.lei.finatra
+package com.lei.finatra.http
 
 import com.twitter.finagle.http.Request
-import com.twitter.finatra.http.{Controller, HttpServer}
 import com.twitter.finatra.http.routing.HttpRouter
+import com.twitter.finatra.http.{Controller, HttpServer}
 import com.twitter.util.Future
 
 /**
@@ -13,11 +13,11 @@ object MyServerMain extends MyServer
 
 class MyServer extends HttpServer {
   override protected def configureHttp(router: HttpRouter): Unit = {
-    router.add[controller]
+    router.add[MyController]
   }
 }
 
-class controller extends Controller {
+class MyController extends Controller {
   get("/", name = "root") {
     request: Request =>
       Future {
