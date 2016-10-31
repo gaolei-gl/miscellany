@@ -10,7 +10,9 @@ import com.mongodb.casbah.commons.conversions.scala.{RegisterConversionHelpers, 
 import com.novus.salat.dao._
 import com.novus.salat.json.{JSONConfig, StringDateStrategy, StringObjectIdStrategy}
 import org.joda.time.format.ISODateTimeFormat
+import org.json4s.native.JsonMethods._
 import org.json4s.native.Serialization
+import org.json4s.native.Serialization._
 import org.json4s.{NoTypeHints => NotypeHintsAtJson4S}
 
 import scala.util.{Random, Try}
@@ -30,17 +32,17 @@ package object context {
   }
 }
 
-case class Article(seq_id: Int, usable: Boolean, published_at: DateTime, site_name: String, title: String, @Key("_id") id: ObjectId = new ObjectId)
+case class Article(seq_id: Int, top_images: List[Map[String, String]], related_images: List[Map[String, String]], usable: Boolean, published_at: DateTime, site_name: String, title: String, @Key("_id") id: ObjectId = new ObjectId)
 
 case class AutoPush(
                      title: String,
                      image: String,
-                     scheduler_time: String,
+                     scheduler_time: DateTime,
                      bigger: Boolean,
                      enable: Boolean,
                      last_modifier: String,
                      language: String,
-                     `type`: String,
+                     `type`: Option[String] = Some("single"),
                      article: Option[Int],
                      articles: Option[List[Int]],
                      start_at: Option[DateTime],
@@ -63,10 +65,25 @@ object SalatDemo {
     RegisterConversionHelpers()
     implicit val serializerFormats = Serialization.formats(NotypeHintsAtJson4S)
     object ArticleDAOTEST extends SalatDAO[Article, ObjectId](collection = MongoClient("127.0.0.1", 27017)("hinews_test")("article"))
-    object UserDAO extends SalatDAO[User, ObjectId](collection = MongoClient("127.0.0.1", 27017)("hinews")("user"))
-    val a = ArticleDAOTEST.findOne("_id" $eq new ObjectId("5721de791290714440bacdc8")).get
-    //    println(a)
-    val res = ArticleDAOTEST.update("seq_id" $eq 31752883, a.copy(title = "Game of Thrones Season 6 premiere causes people to watch lots of porn"), true, false, new WriteConcern)
+    object UserDAO extends SalatDAO[User, ObjectId](collection = MongoClient("127.0.0.1", 27017)("hinews_test")("user"))
+    //    println(UserDAO.find("accounts" $exists false).toList)
+    ArticleDAOTEST.find("seq_id" $in List(31741440))
+      .toList
+      .map(grater[Article].toPrettyJSON)
+      .map(parse(_))
+      .map(_ transformField {
+        case ("_id", x) => ("id", x)
+      })
+      .map(_ merge parse("""{"type":"article"}"""))
+      .foreach(u=>println(write(u)))
+
+    //    val a = ArticleDAOTEST.findOne("_id" $eq new ObjectId("5721de791290714440bacdc8")).get
+    //    object AutoPushDAO extends SalatDAO[AutoPush, ObjectId](collection = MongoClient("127.0.0.1", 27017)("hinews_test")("autopush"))
+    //    val q = ("enable" $eq true) ++ ("scheduler_time" $lte new DateTime()) ++ ("finished" $ne true)
+    //    val recordOpt = AutoPushDAO.findOne(q)
+    //    println(recordOpt.get)
+    //
+    //    AutoPushDAO.find(MongoDBObject()).foreach(println)
 
   }
 
