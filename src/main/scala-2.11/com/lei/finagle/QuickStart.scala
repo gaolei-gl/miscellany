@@ -19,16 +19,21 @@ object QuickStart {
     //    val server = Http.serve(":8080", service)
     //    Await.ready(server)
 
-    val service = new Service[Request, Response] {
-      override def apply(request: Request): Future[Response] = {
-        Future {
-          Response(http.Version.Http11, http.Status.Ok)
-        }
-      }
-    }
+    //    val service = new Service[Request, Response] {
+    //      override def apply(request: Request): Future[Response] = {
+    //        Future {
+    //          Response(http.Version.Http11, http.Status.Ok)
+    //        }
+    //      }
+    //    }
+    //
+    //    val server = Http.serve(":8080", service)
+    //    Await.ready(server)
+    val client = Http.newService("www.baidu.com:80")
+    val request = http.Request(http.Method.Get, "/")
+    val result = client(request)
+    println(Await.result(result))
 
-    val server = Http.serve(":8080", service)
-    Await.ready(server)
 
   }
 

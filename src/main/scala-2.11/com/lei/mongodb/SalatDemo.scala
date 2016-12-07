@@ -5,7 +5,6 @@ import org.joda.time.DateTime
 import com.novus.salat._
 import com.novus.salat.annotations._
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.casbah.commons.conversions.scala.{RegisterConversionHelpers, RegisterJodaTimeConversionHelpers}
 import com.novus.salat.dao._
 import com.novus.salat.json.{JSONConfig, StringDateStrategy, StringObjectIdStrategy}
@@ -21,18 +20,9 @@ import scala.util.{Random, Try}
   * Created by Lei on 16/9/27.
   */
 
-package object context {
-  implicit val ctx = new Context {
-    val name = "hinews.article"
-    override val typeHintStrategy = StringTypeHintStrategy(when = TypeHintFrequency.WhenNecessary,
-      typeHint = "_t")
-    override val jsonConfig = JSONConfig(
-      dateStrategy = StringDateStrategy(dateFormatter = ISODateTimeFormat.dateTime),
-      objectIdStrategy = StringObjectIdStrategy)
-  }
-}
 
-case class Article(seq_id: Int, top_images: List[Map[String, String]], related_images: List[Map[String, String]], usable: Boolean, published_at: DateTime, site_name: String, title: String, @Key("_id") id: ObjectId = new ObjectId)
+//case class Article(seq_id: Int, top_images: List[Map[String, String]], related_images: List[Map[String, String]], usable: Boolean, published_at: DateTime, site_name: String, title: String, @Key("_id") id: ObjectId = new ObjectId)
+case class Article(seq_id: Int, usable: Option[Boolean], site_name: Option[String], site_url: Option[String] = Some(""), title: Option[String], @Key("_id") id: ObjectId = new ObjectId)
 
 case class AutoPush(
                      title: String,
@@ -54,36 +44,48 @@ case class AutoPush(
                      @Key("_id") id: ObjectId = new ObjectId
                    )
 
-case class User(accounts: Map[String, Map[String, String]], @Key("_id") id: ObjectId = new ObjectId)
+case class User(seq_id: Int, accounts: Map[String, Map[String, String]], @Key("_id") id: ObjectId = new ObjectId)
 
+
+case class Topic(
+                  title: String,
+                  block_images: List[Map[String, String]],
+                  images: List[Map[String, String]],
+                  desc: String,
+                  detail: String,
+                  @Key("_id") id: ObjectId = new ObjectId()
+                )
+
+case class Fuck(title: String, cates: List[Int], extra: Int, name: Int, @Key("_id") id: ObjectId = new ObjectId())
+
+case class GCMResponse(multicast_id: String, success: Int, failure: Int, canonical_ids: Int, results: List[Map[String, String]])
+
+case class Media(site_urls: List[String], is_partner: Boolean, @Key("_id") id: ObjectId = new ObjectId)
 
 object SalatDemo {
   def main(args: Array[String]): Unit = {
-    import context._
+    implicit val ctx = new Context {
+      val name = "hinews.article"
+      override val typeHintStrategy = StringTypeHintStrategy(when = TypeHintFrequency.WhenNecessary,
+        typeHint = "_t")
+      override val jsonConfig = JSONConfig(
+        dateStrategy = StringDateStrategy(dateFormatter = ISODateTimeFormat.dateTime),
+        objectIdStrategy = StringObjectIdStrategy)
+    }
+    import com.mongodb.casbah.Imports._
 
     RegisterJodaTimeConversionHelpers()
     RegisterConversionHelpers()
     implicit val serializerFormats = Serialization.formats(NotypeHintsAtJson4S)
-    object ArticleDAOTEST extends SalatDAO[Article, ObjectId](collection = MongoClient("127.0.0.1", 27017)("hinews_test")("article"))
-    object UserDAO extends SalatDAO[User, ObjectId](collection = MongoClient("127.0.0.1", 27017)("hinews_test")("user"))
-    //    println(UserDAO.find("accounts" $exists false).toList)
-    ArticleDAOTEST.find("seq_id" $in List(31741440))
-      .toList
-      .map(grater[Article].toPrettyJSON)
-      .map(parse(_))
-      .map(_ transformField {
-        case ("_id", x) => ("id", x)
-      })
-      .map(_ merge parse("""{"type":"article"}"""))
-      .foreach(u=>println(write(u)))
+    object ArticleDAO extends SalatDAO[Article, ObjectId](collection = MongoClient("localhost", 27017)("hinews_test")("article"))
+    //    ArticleDAO.update("seq_id" $eq 31741443, MongoDBObject("$set" -> MongoDBObject("usable" -> false)))
+    object FuckDAO extends SalatDAO[Fuck, ObjectId](collection = MongoClient("localhost", 27017)("hinews_test")("fuck"))
+    //    FuckDAO.update("title" $eq "hello", MongoDBObject("$inc" -> MongoDBObject("extra" -> 2)), true)
+//        FuckDAO.update(("title" $eq "fucka1gain") ++ ("extra" $eq 20), MongoDBObject("$inc" -> MongoDBObject("name" -> 2)), true)
 
-    //    val a = ArticleDAOTEST.findOne("_id" $eq new ObjectId("5721de791290714440bacdc8")).get
-    //    object AutoPushDAO extends SalatDAO[AutoPush, ObjectId](collection = MongoClient("127.0.0.1", 27017)("hinews_test")("autopush"))
-    //    val q = ("enable" $eq true) ++ ("scheduler_time" $lte new DateTime()) ++ ("finished" $ne true)
-    //    val recordOpt = AutoPushDAO.findOne(q)
-    //    println(recordOpt.get)
-    //
-    //    AutoPushDAO.find(MongoDBObject()).foreach(println)
+    object MediaDAO extends SalatDAO[Media, ObjectId](collection = MongoClient("localhost", 27017)("hinews_test")("media"))
+    val isPartner = MediaDAO.findOne(("site_urls" $eq "www.indiatvnews.com") ++ ("is_partner" $eq true) ).isDefined
+    println(isPartner)
 
   }
 
