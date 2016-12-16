@@ -17,3 +17,6 @@ hs_err_pid*
 *.iml
 target/
 logs
+
+src/main/gen-scala
+src/main/gen-java

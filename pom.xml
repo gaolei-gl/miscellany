@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>finagle-http_2.11</artifactId>
-            <version>6.36.0</version>
+            <version>6.40.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.guava</groupId>
@@ -29,13 +29,13 @@
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>finagle-thrift_2.11</artifactId>
-            <version>6.36.0</version>
+            <version>6.40.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>finagle-stats_2.11</artifactId>
-            <version>6.36.0</version>
+            <version>6.40.0</version>
         </dependency>
 
         <dependency>
@@ -160,7 +160,7 @@
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>scrooge-core_2.11</artifactId>
-            <version>4.11.0</version>
+            <version>4.12.0</version>
         </dependency>
 
         <dependency>
@@ -295,7 +295,7 @@
             <plugin>
                 <groupId>com.twitter</groupId>
                 <artifactId>scrooge-maven-plugin</artifactId>
-                <version>4.11.0</version>
+                <version>4.12.0</version>
                 <configuration>
                     <language>scala</language> <!-- default is scala -->
                     <thriftOpts>
