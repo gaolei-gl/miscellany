@@ -1,11 +1,11 @@
 package com.lei.finatra.thrift.Controller
 
-import com.xiaotunza.service.thrift.BinaryService
-import com.xiaotunza.service.thrift.BinaryService._
-
 import com.twitter.finatra.thrift.Controller
-import com.twitter.util.Future
 import javax.inject.Singleton
+
+import com.twitter.finagle.Service
+import com.xiaotunza.thrift.BinaryService
+import com.xiaotunza.thrift.BinaryService.FetchBlob
 
 /**
   * Created by Lei on 2016/10/14.
@@ -13,7 +13,5 @@ import javax.inject.Singleton
 
 @Singleton
 class BinaryThriftController extends Controller with BinaryService.BaseServiceIface {
-  override def add = handle(Add) { args: Add.Args =>
-    Future(args.a + args.b)
-  }
+  override def fetchBlob: Service[FetchBlob.Args, FetchBlob.Result] = ???
 }

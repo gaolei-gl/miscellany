@@ -2,7 +2,7 @@ package com.lei.thrift
 
 import com.twitter.finagle.Thrift
 import com.twitter.util.{Await, Future}
-import com.xiaotunza.service.thrift.BinaryService
+import com.xiaotunza.thrift.BinaryService
 
 /**
   * Created by Lei on 16/9/27.

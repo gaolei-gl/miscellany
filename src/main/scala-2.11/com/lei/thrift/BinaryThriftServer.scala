@@ -4,7 +4,7 @@ import java.nio.ByteBuffer
 
 import com.twitter.finagle.Thrift
 import com.twitter.util.{Await, Future}
-import com.xiaotunza.service.thrift.BinaryService
+import com.xiaotunza.thrift.BinaryService
 
 
 /**
@@ -19,5 +19,5 @@ object BinaryThriftServer {
 }
 
 class BinaryServerImpl extends BinaryService[Future] {
-  override def add(a: Int, b: Int): Future[Int] = Future(a + b)
+  override def fetchBlob(id: Long): Future[ByteBuffer] = ???
 }

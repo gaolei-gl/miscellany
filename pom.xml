@@ -134,12 +134,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.typelevel</groupId>
-            <artifactId>cats-laws_2.11</artifactId>
-            <version>0.7.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>finatra-http_2.11</artifactId>
             <version>2.5.0</version>

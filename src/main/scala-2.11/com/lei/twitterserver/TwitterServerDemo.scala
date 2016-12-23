@@ -3,7 +3,6 @@ package com.lei.twitterserver
 /**
   * Created by Lei on 2016/10/24.
   */
-
 import com.twitter.conversions.time._
 import com.twitter.finagle.http.{HttpMuxer, Request, Response, Status}
 import com.twitter.finagle.Service
@@ -12,21 +11,17 @@ import com.twitter.server.TwitterServer
 import com.twitter.util.{Await, Future, Time}
 import java.net.InetSocketAddress
 
-import com.google.common.cache.{CacheBuilder, CacheLoader}
 
-object TwitterServerDemo extends TwitterServer {
+object AdvancedServer extends TwitterServer {
 
   val what = flag("what", "hello", "String to return")
   val addr = flag("bind", new InetSocketAddress(0), "Bind address")
   val durations = flag("alarms", (1.second, 5.second), "2 alarm durations")
   val counter = statsReceiver.counter("requests_counter")
-
-
   override def defaultFormatter = new Formatter(
     timezone = Some("UTC"),
     prefix = "<yyyy-MM-dd HH:mm:ss.SSS> [%.3s] %s: "
   )
-
   override def failfastOnFlagsNotParsed: Boolean = true
 
   val service = new Service[Request, Response] {
