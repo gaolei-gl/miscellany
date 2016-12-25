@@ -15,9 +15,11 @@ object EchoServerClient {
     val f = 1 to 5000 map {
       _ => client.echo("")
     }
-    Future.join(f)
+    f.foreach(_ onSuccess (println))
+    Await.ready(Future.join(f))
     val t3 = System.currentTimeMillis()
-    val cnt = client.getCnt()
+    val cntFuture = client.getCnt()
+    val cnt = Await.result(cntFuture)
     println(s"all finished:\t ${t2 - t1} \t${t3 - t2}")
     println(cnt)
 
