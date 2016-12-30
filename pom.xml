@@ -391,7 +391,7 @@
                 <updatePolicy>always</updatePolicy>
             </releases>
         </pluginRepository>
-
+        <!--
         <pluginRepository>
             <id>twitter</id>
             <url>http://maven.twttr.com/</url>
@@ -402,5 +402,6 @@
                 <updatePolicy>always</updatePolicy>
             </releases>
         </pluginRepository>
+        -->
     </pluginRepositories>
 </project>
