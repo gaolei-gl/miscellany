@@ -3,19 +3,23 @@ package com.lei.finagle
 import com.twitter.finagle.{Service, Thrift}
 import com.twitter.finagle.thrift.Protocols
 import com.twitter.util.{Await, Future}
-import com.xiaotunza.thrift._
 import com.twitter.app.App
+import com.xiaotunza.thrift.EchoService
 
 
 /**
   * Created by Lei on 2016/12/23.
   */
 object EchoServerServer extends App {
-  var count = 0
+  val slogan = flag[String]("slogan", "From server resp ", "slogan response from server")
   val server: EchoService.FutureIface = new EchoService.FutureIface {
+    var count = 0
+
     override def echo(msg: String) = {
-      count += 1
-      Future.value(s"From server resp #${count}: ${msg}")
+      this synchronized {
+        count += 1
+      }
+      Future.value(s"${slogan()} #${count}: ${msg}")
     }
 
     override def getCnt(): Future[Long] = Future.value(count)
@@ -26,8 +30,10 @@ object EchoServerServer extends App {
     // thrift protocol without announcing
     val thriftServer = Thrift.server
       .withLabel("thrift-echo-service")
+      //      .withBufferedTransport() // compat for python
       .serve(":8080", finagleServer)
 
+    closeOnExit(thriftServer)
     Await.result(thriftServer)
   }
 
