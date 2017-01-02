@@ -51,6 +51,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.11</artifactId>
+            <version>3.0.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>io.circe</groupId>
             <artifactId>circe-core_2.11</artifactId>
             <version>0.5.0-M2</version>
@@ -148,13 +155,19 @@
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>finatra-http_2.11</artifactId>
-            <version>2.5.0</version>
+            <version>2.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>finatra-httpclient_2.11</artifactId>
+            <version>2.6.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>finatra-thrift_2.11</artifactId>
-            <version>2.5.0</version>
+            <version>2.6.0</version>
         </dependency>
 
         <dependency>
@@ -335,49 +348,49 @@
 
 
     <repositories>
-        <repository>
-            <id>scala-tools.org</id>
-            <url>http://scala-tools.org/repo-releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </repository>
+        <!--<repository>-->
+        <!--<id>scala-tools.org</id>-->
+        <!--<url>http://scala-tools.org/repo-releases</url>-->
+        <!--<snapshots>-->
+        <!--<enabled>false</enabled>-->
+        <!--</snapshots>-->
+        <!--<releases>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--</releases>-->
+        <!--</repository>-->
 
-        <repository>
-            <id>twitter</id>
-            <url>http://maven.twttr.com/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </repository>
+        <!--<repository>-->
+        <!--<id>twitter</id>-->
+        <!--<url>http://maven.twttr.com/</url>-->
+        <!--<snapshots>-->
+        <!--<enabled>false</enabled>-->
+        <!--</snapshots>-->
+        <!--<releases>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--</releases>-->
+        <!--</repository>-->
 
-        <repository>
-            <id>mvnrepository</id>
-            <url>http://mvnrepository.com/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </repository>
+        <!--<repository>-->
+        <!--<id>mvnrepository</id>-->
+        <!--<url>http://mvnrepository.com/</url>-->
+        <!--<snapshots>-->
+        <!--<enabled>false</enabled>-->
+        <!--</snapshots>-->
+        <!--<releases>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--</releases>-->
+        <!--</repository>-->
 
-        <repository>
-            <id>novusRels</id>
-            <name>repo.novus rels</name>
-            <url>http://repo.novus.com/releases/</url>
-        </repository>
-        <repository>
-            <id>novusSnaps</id>
-            <name>repo.novus snaps</name>
-            <url>http://repo.novus.com/snapshots/</url>
-        </repository>
+        <!--<repository>-->
+        <!--<id>novusRels</id>-->
+        <!--<name>repo.novus rels</name>-->
+        <!--<url>http://repo.novus.com/releases/</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+        <!--<id>novusSnaps</id>-->
+        <!--<name>repo.novus snaps</name>-->
+        <!--<url>http://repo.novus.com/snapshots/</url>-->
+        <!--</repository>-->
     </repositories>
 
     <pluginRepositories>
