@@ -1,7 +1,6 @@
 package com.lei.json
 
-import scala.util.parsing.json.JSON
-import org.json4s.JsonAST.JValue
+import org.json4s.JsonAST.{JField, JString}
 import org.json4s.NoTypeHints
 import org.json4s.native.JsonMethods._
 import org.json4s.native.Serialization
@@ -22,7 +21,16 @@ object BuindInParser {
     val jValue = List(parse(json))
     val part = parse(s"""{"isPartner":${isPartner}}""")
     println(write(jValue.head merge part))
+    println(remove(json, "news"))
 
+  }
 
+  def remove(str: String, fieldToRemove: String) = {
+    implicit val serializerFormats = Serialization.formats(NoTypeHints)
+    val jValue = parse(str)
+    val t = jValue removeField {
+      case (k, v) => k == fieldToRemove
+    }
+    pretty(render(t))
   }
 }
