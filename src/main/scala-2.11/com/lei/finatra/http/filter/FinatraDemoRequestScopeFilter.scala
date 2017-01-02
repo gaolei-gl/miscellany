@@ -1,4 +1,4 @@
-package com.lei.finatra.http
+package com.lei.finatra.http.filter
 
 import com.twitter.finagle.http.{Request, Response}
 import com.twitter.finagle.{Service, SimpleFilter}
