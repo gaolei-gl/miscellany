@@ -25,7 +25,7 @@ class FinatraDemo extends HttpServer {
 
   override protected def configureHttp(router: HttpRouter): Unit = {
     router
-      .filter[CommonFilters]
+      //      .filter[CommonFilters]
       .filter[FinatraDemoRequestScopeFilter]
       .add[FinatraDemoController]
       .add[FinatraDemoMongoDBController]
