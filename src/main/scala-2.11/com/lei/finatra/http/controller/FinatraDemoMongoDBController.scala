@@ -68,12 +68,10 @@ class FinatraDemoMongoDBController @Inject()(db: MongoClient) extends Controller
     request: Request =>
       val index = request.getParam("id")
       println(index)
-      caching(index) {
-        Future {
-          val col = db("hinews")("article")
-          val data = col.find(MongoDBObject()).take(500).toSeq
-          data(index.toInt)
-        }
+      sync.caching(index) {
+        val col = db("hinews")("article")
+        val data = col.find(MongoDBObject()).take(500).toSeq
+        data(index.toInt)
       }
   }
 
