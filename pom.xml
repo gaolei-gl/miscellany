@@ -195,6 +195,13 @@
             <version>4.12.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.twitter/util-zk_2.11 -->
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>util-zk_2.11</artifactId>
+            <version>6.40.0</version>
+        </dependency>
+
         <dependency>
             <groupId>com.github.finagle</groupId>
             <artifactId>finch-core_2.11</artifactId>
