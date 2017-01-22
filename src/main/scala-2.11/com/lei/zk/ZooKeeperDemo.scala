@@ -1,10 +1,12 @@
 package com.lei.zk
 
-import com.twitter.zk.ZkClient
+import com.twitter.zk.{ZNode, ZkClient}
 
 import scala.language.postfixOps
 import com.twitter.conversions.time._
-import com.twitter.util.{Await, Future, Timer}
+import com.twitter.util.{Await, Future, Return, Timer}
+import org.apache.zookeeper.data.Stat
+
 import scala.language.postfixOps
 
 /**
@@ -14,10 +16,21 @@ object ZooKeeperDemo {
   def main(args: Array[String]): Unit = {
     implicit val timer = com.twitter.util.Timer.Nil
     val client = ZkClient("localhost:2181", 10 seconds).withRetries(3)
-    //    client("/test").exists.watch() onSuccess (println)
-    client("/test").getData()
+    val zNode = client("/test")
+    //    Await.ready(zNode.setData("heihei".getBytes, 1))
+    zNode.getData.watch() onSuccess {
+      case ZNode.Watch(Return(z), u) => {
+        u onSuccess {
+          case x => println(x)
+        }
+        println("what" + new String(z.bytes))
+      }
+    }
 
+//    val a = Await.result(zNode.getData())
+//    println(new String(a.bytes))
     Await.ready(Future.never)
+
   }
 
 }
