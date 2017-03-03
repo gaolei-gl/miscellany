@@ -1,6 +1,6 @@
-package com.lei.finatra.thrift.Server
+package com.lei.finatra.thrift.server
 
-import com.lei.finatra.thrift.Controller.FinatraThriftEchoDemoController
+import com.lei.finatra.thrift.controller.FinatraThriftEchoDemoController
 import com.twitter.finagle.ThriftMux.Server
 import com.twitter.finatra.thrift.ThriftServer
 import com.twitter.finatra.thrift.filters.{AccessLoggingFilter, LoggingMDCFilter}
