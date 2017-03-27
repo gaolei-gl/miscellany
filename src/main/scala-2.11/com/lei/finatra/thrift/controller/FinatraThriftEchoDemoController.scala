@@ -1,4 +1,4 @@
-package com.lei.finatra.thrift.Controller
+package com.lei.finatra.thrift.controller
 
 import java.util.concurrent.atomic.AtomicLong
 

@@ -30,7 +30,7 @@ object EchoServerServer extends App {
     // thrift protocol without announcing
     val thriftServer = Thrift.server
       .withLabel("thrift-echo-service")
-      //      .withBufferedTransport() // compat for python
+      .withBufferedTransport() // compat for python
       .serve(":8080", finagleServer)
 
     closeOnExit(thriftServer)
