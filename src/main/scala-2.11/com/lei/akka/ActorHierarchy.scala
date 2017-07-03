@@ -1,8 +1,6 @@
 package com.lei.akka
 
 import akka.actor.{Actor, ActorSystem, Props}
-import akka.actor.Actor.Receive
-import scala.concurrent.duration._
 
 /**
   * Created by Lei on 16/6/15.

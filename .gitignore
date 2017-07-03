@@ -20,3 +20,4 @@ logs
 
 src/main/gen-scala
 src/main/gen-java
+rocksdb/
