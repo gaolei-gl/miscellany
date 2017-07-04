@@ -22,7 +22,7 @@ public class Solution {
     }
 
     public static ListNode rotateRight(ListNode head, int k) {
-        if (head==null)
+        if (head == null)
             return null;
         int length = len(head);
         ListNode tail = findTail(head);
