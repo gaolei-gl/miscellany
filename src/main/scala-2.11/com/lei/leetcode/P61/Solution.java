@@ -16,64 +16,43 @@ class ListNode {
 public class Solution {
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
-        rotateRight(head, 99);
+        head.next = new ListNode(2);
+//        head.next.next = new ListNode(3);
+        rotateRight(head, 4);
     }
 
     public static ListNode rotateRight(ListNode head, int k) {
-        if (k == 0 || head == null)
-            return head;
+        if (head==null)
+            return null;
+        int length = len(head);
+        ListNode tail = findTail(head);
+        if (k > length)
+            k = k % length;
+        tail.next = head;
+        for (int i = 0; i < k; i++)
+            tail = tail.next;
+        ListNode newHead = tail.next;
+        tail.next = null;
+        return newHead;
 
-        int length = length(head);
-        ListNode rotatedHead = rotate(head);
-        int kk = k;
-        if (k > length) {
-            int turn = (k / length) % 2;
-            kk = k % length;
-            if (turn == 0)
-                rotatedHead = rotate(head);
-        }
-        ListNode firstPart = rotatedHead, secondPart = null, pre = rotatedHead;
-
-        for (int i = 0; i < kk; i++) {
-            pre = rotatedHead;
-            rotatedHead = rotatedHead.next;
-        }
-        secondPart = rotatedHead;
-        pre.next = null;
-
-        return merge(rotate(firstPart), rotate(secondPart));
     }
 
-    private static ListNode rotate(ListNode head) {
-        ListNode pre = null;
-        while (head != null) {
-            ListNode next = head.next;
-            head.next = pre;
-            pre = head;
-            head = next;
-        }
-        return pre;
+
+    private static ListNode findTail(ListNode h) {
+        if (h == null)
+            return h;
+        while (h.next != null)
+            h = h.next;
+        return h;
     }
 
-    private static int length(ListNode head) {
-        int i = 0;
-        while (head != null) {
-            i++;
-            head = head.next;
+    private static int len(ListNode h) {
+        int l = 0;
+        while (h != null) {
+            l++;
+            h = h.next;
         }
-        return i;
+        return l;
     }
 
-    private static ListNode merge(ListNode a, ListNode b) {
-        if (a == null)
-            return b;
-        if (b == null)
-            return a;
-        ListNode head = a;
-        while (a.next != null) {
-            a = a.next;
-        }
-        a.next = b;
-        return head;
-    }
 }
