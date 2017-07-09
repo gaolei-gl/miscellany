@@ -8,15 +8,19 @@ import com.lei.leetcode.ListNode;
 public class Solution {
     public static ListNode detectCycle(ListNode head) {
         if (head == null || head.next == null) return null;
-        ListNode fast = head, slow = head, pre = head;
+        ListNode fast = head, slow = head, p = head;
         while (fast != null && fast.next != null) {
-            pre = fast;
             fast = fast.next.next;
             slow = slow.next;
-            if (fast == slow) break;
+            if (fast == slow) {
+                while (slow != p) {
+                    slow = slow.next;
+                    p = p.next;
+                }
+                return p;
+            }
         }
 
-        if (fast == slow) return pre;
         return null;
     }
 
