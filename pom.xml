@@ -105,6 +105,12 @@
         </dependency>
 
         <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.13.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.novus</groupId>
             <artifactId>salat_2.11</artifactId>
             <version>1.9.9</version>
