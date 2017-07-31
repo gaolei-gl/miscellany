@@ -9,19 +9,11 @@ import java.util.Set;
 public class Solution {
     public static boolean containsNearbyDuplicate(int[] nums, int k) {
         Set<Integer> set = new HashSet<>();
-        int i = 0;
-        while (i <= k) {
-            set.add(nums[i++]);
-        }
-        if (set.size() < k) return true;
-        while (i < nums.length) {
-            set.remove(nums[i - k]);
-            set.add(nums[i]);
-            if (set.size() < k) return true;
-            i++;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > k) set.remove(nums[i - k - 1]);
+            if (!set.add(nums[i])) return true;
         }
         return false;
-
     }
 
     public static void main(String[] args) {
