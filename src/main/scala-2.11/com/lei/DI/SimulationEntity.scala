@@ -15,7 +15,7 @@ trait NetworkEntity {
 
   def handleMessage(msg: String, ctx: String): Unit = msg match {
     case "1" =>
-    case _ => super.handleMessage(msg, ctx)
+//    case _ => super.handleMessage(msg, ctx)
   }
 }
 
