@@ -15,6 +15,8 @@ trait MyFooAble extends FooAble {
 object LearnDependencyInjection {
   def main(args: Array[String]) {
     val a = new MyFooAble {}
-    println(a.foo())
+//    println(a.foo())
+    import java.util.Scanner
+    val scan = new Scanner(System.in)
   }
 }
