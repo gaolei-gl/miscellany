@@ -2,6 +2,7 @@ package com.lei.leetcode.P621
 
 import scala.collection.immutable.Stack
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 case class Tree(topic: String, questions: Seq[String], subTopic: Seq[Tree]) {
   override def hashCode() = topic.hashCode
@@ -66,22 +67,26 @@ object Solution {
   def buildTree(flattenTree: String, questionGroupByTopic: Map[String, IndexedSeq[String]]) = {
     val words = flattenTree.split(" ")
     var stack = mutable.ListBuffer[Tree]()
-    val root = Tree("root", empty[String], empty[Tree])
-    var current = root
+    val LEFTBRACKET = Tree("(", empty[String], empty[Tree])
+    val RIGHTBRACKET = Tree(")", empty[String], empty[Tree])
+
     words.foreach {
       _ match {
         case "(" => stack += Tree("(", empty[String], empty[Tree])
         case ")" =>
-          while (stack.length != 0 && stack.last != "(") {
-            names :+ stack.last
+          val names = ListBuffer.empty[Tree]
+          val tt = ListBuffer.empty[Tree]
+          while (stack.length != 0 && stack.last != LEFTBRACKET) {
+            tt += stack.last
             stack = stack.init
           }
           if (stack.length != 0) {
-            stack = stack.init
-            val birds = stack.last
-            stack = stack.init
-            val children = names.map(topicName => Tree(topicName, questionGroupByTopic.getOrElse(topicName, empty[String]), empty[Tree]))
-            Tree(birds, empty[String], children)
+            stack = stack.init // remove "("
+            val birds = stack.last.copy(subTopic = tt)
+            stack = stack.init :+ birds
+          } else {
+            val root = Tree("root", empty[String], empty[Tree])
+
           }
 
 
