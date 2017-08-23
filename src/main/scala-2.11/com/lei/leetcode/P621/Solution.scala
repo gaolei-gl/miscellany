@@ -1,6 +1,6 @@
 package com.lei.leetcode.P621
 
-import scala.collection.immutable.Stack
+import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
@@ -12,6 +12,10 @@ case class Tree(topic: String, questions: Seq[String], subTopic: Seq[Tree]) {
       case Tree(x, _, _) => this.topic == x
       case _ => false
     }
+  }
+
+  def select(topic: String) = {
+    subTopic.filter(_ == Tree(topic, Seq.empty[String], Seq.empty[Tree])).head
   }
 }
 
@@ -27,7 +31,7 @@ object Solution {
     *
     * @return
     */
-  def getQueries: Seq[Query] = {
+  def readQueries: Seq[Query] = {
     val queryCnt = reader.readInt() //  4
     (0 until queryCnt).map {
       _ =>
@@ -42,7 +46,7 @@ object Solution {
     *
     * @return
     */
-  def getQuestions = {
+  def readQuestions = {
     val questionCnt = reader.readInt() // 5
     (0 until questionCnt).map {
       _ =>
@@ -52,78 +56,85 @@ object Solution {
   }
 
   def main(args: Array[String]): Unit = {
-
-
     val n = reader.readInt() // 6
     val flattenTreeStr = reader.readLine() // Animals ( Reptiles Birds ( Eagles Pigeons Crows ) )
-    val root = Tree("root", empty[String], empty[Tree])
-    val questionGroupByTopic = getQuestions
-    val queries = getQueries
+    val (root, index) = buildTree(flattenTreeStr, readQuestions)
+    readQueries.foreach {
+      query: Query => {
+        val reversePath = mutable.ListBuffer.empty[String]
+        var currentPosition = query.topic
+        while (currentPosition != "root") {
+          reversePath += currentPosition
+          currentPosition = index.get(currentPosition).get
+        }
+        val path = reversePath.reverse.toList
+        val node = findNode(root, path)
+        println(matchQuestion(node, query.queryString))
+      }
+    }
 
-    //    val tree = buildTree(root, flattenTreeStr, 0, questionGroupByTopic)
-    //    println(tree)
   }
 
-  def buildTree(flattenTree: String, questionGroupByTopic: Map[String, IndexedSeq[String]]) = {
+  //  def matchQuestion(root: Tree, q: String): Int = {
+  //    root.subTopic match {
+  //      case seq if seq.nonEmpty => seq.map(x => matchQuestion(x, q)).sum + root.questions.filter(_.startsWith(q)).length
+  //      case seq if seq.isEmpty => root.questions.filter(_.startsWith(q)).length
+  //    }
+  //  }
+
+  def matchQuestion(root: Tree, q: String): Int = {
+    @tailrec
+    def loop(subNodes: Seq[Tree], acc: Int): Int = {
+      subNodes match {
+        case head :: tail =>
+          val n = head.questions.filter(_.startsWith(q)).length
+          loop(tail, n + acc)
+        case Nil => acc
+      }
+    }
+
+    loop(root.subTopic, root.questions.filter(_.startsWith(q)).length)
+  }
+
+  @tailrec
+  def findNode(root: Tree, path: List[String]): Tree = {
+    path match {
+      case head :: tail => findNode(root.select(head), tail)
+      case Nil => root
+    }
+  }
+
+  def buildTree(flattenTree: String, questionGroupByTopic: Map[String, IndexedSeq[String]]): (Tree, mutable.Map[String, String]) = {
     val words = flattenTree.split(" ")
     var stack = mutable.ListBuffer[Tree]()
     val LEFTBRACKET = Tree("(", empty[String], empty[Tree])
-    val RIGHTBRACKET = Tree(")", empty[String], empty[Tree])
+    val indexes = collection.mutable.Map.empty[String, String]
 
     words.foreach {
       _ match {
         case "(" => stack += Tree("(", empty[String], empty[Tree])
         case ")" =>
-          val names = ListBuffer.empty[Tree]
-          val tt = ListBuffer.empty[Tree]
+          val tmp = ListBuffer.empty[Tree]
           while (stack.length != 0 && stack.last != LEFTBRACKET) {
-            tt += stack.last
+            tmp += stack.last
             stack = stack.init
           }
-          if (stack.length != 0) {
-            stack = stack.init // remove "("
-            val birds = stack.last.copy(subTopic = tt)
-            stack = stack.init :+ birds
-          } else {
-            val root = Tree("root", empty[String], empty[Tree])
-
+          stack = stack.init
+          val last = stack.last
+          // mark index
+          tmp.foreach {
+            x => indexes += (x.topic -> last.topic)
           }
-
-
-        case topic => stack += Tree(topic, empty[String], empty[Tree])
+          val birds = last.copy(subTopic = tmp)
+          stack = stack.init :+ birds
+        case topic => stack += Tree(topic, questionGroupByTopic.getOrElse(topic, empty[String]), empty[Tree])
       }
     }
+    stack.foreach {
+      x => indexes += (x.topic -> "root")
+    }
+    (Tree("root", empty[String], stack), indexes)
   }
 
 
-  //  def buildTree(currentRoot: Tree, str: String, questionGroupByTopic: Map[String, Seq[String]]): Tree = {
-  //    val piece = str.takeWhile(_ != ' ').trim
-  //    piece match {
-  //      case x if x == '(' =>
-  //        val index = str.indexOf('(')
-  //        val a = str.substring(0, index).trim.split(' ').last
-  //        val newTree = buildTree(Tree(a, empty[String], empty[Tree]), str.substring(index + 1).trim, questionGroupByTopic)
-  //        currentRoot.copy(subTopic = currentRoot.subTopic :+ newTree)
-  //      case x if x == ')' => currentRoot
-  //      case topicName =>
-  //        currentRoot.copy(subTopic = currentRoot.subTopic :+ Tree(topicName, questionGroupByTopic.getOrElse(topicName, empty[String]), empty[Tree]))
-  //    }
-  //  }
 }
-
-
-/**
-  * 6
-  * Animals ( Reptiles Birds ( Eagles Pigeons Crows ) )
-  * 5
-  * Reptiles: Why are many reptiles green?
-  * Birds: How do birds fly?
-  * Eagles: How endangered are eagles?
-  * Pigeons: Where in the world are pigeons most densely populated?
-  * Eagles: Where do most eagles live?
-  * 4
-  * Eagles How en
-  * Birds Where
-  * Reptiles Why do
-  * Animals Wh
-  */
