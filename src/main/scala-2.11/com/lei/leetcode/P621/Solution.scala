@@ -59,7 +59,7 @@ object Solution {
     val n = reader.readInt() // 6
     val flattenTreeStr = reader.readLine() // Animals ( Reptiles Birds ( Eagles Pigeons Crows ) )
     val (root, index) = buildTree(flattenTreeStr, readQuestions)
-    System.err.println("Finish build tree and index.")
+//    System.err.println("Finish build tree and index.")
     readQueries.foreach {
       query: Query => {
         val reversePath = mutable.ListBuffer.empty[String]
