@@ -59,6 +59,7 @@ object Solution {
     val n = reader.readInt() // 6
     val flattenTreeStr = reader.readLine() // Animals ( Reptiles Birds ( Eagles Pigeons Crows ) )
     val (root, index) = buildTree(flattenTreeStr, readQuestions)
+    System.err.println("Finish build tree and index.")
     readQueries.foreach {
       query: Query => {
         val reversePath = mutable.ListBuffer.empty[String]
@@ -75,25 +76,18 @@ object Solution {
 
   }
 
-  //  def matchQuestion(root: Tree, q: String): Int = {
-  //    root.subTopic match {
-  //      case seq if seq.nonEmpty => seq.map(x => matchQuestion(x, q)).sum + root.questions.filter(_.startsWith(q)).length
-  //      case seq if seq.isEmpty => root.questions.filter(_.startsWith(q)).length
-  //    }
-  //  }
-
   def matchQuestion(root: Tree, q: String): Int = {
     @tailrec
-    def loop(subNodes: Seq[Tree], acc: Int): Int = {
+    def loop(subNodes: List[Tree], acc: Int): Int = {
       subNodes match {
         case head :: tail =>
           val n = head.questions.filter(_.startsWith(q)).length
-          loop(tail, n + acc)
+          loop(head.subTopic.toList ::: tail, n + acc)
         case Nil => acc
       }
     }
 
-    loop(root.subTopic, root.questions.filter(_.startsWith(q)).length)
+    loop(root.subTopic.toList, root.questions.filter(_.startsWith(q)).length)
   }
 
   @tailrec
@@ -122,9 +116,7 @@ object Solution {
           stack = stack.init
           val last = stack.last
           // mark index
-          tmp.foreach {
-            x => indexes += (x.topic -> last.topic)
-          }
+          tmp.foreach { x => indexes += (x.topic -> last.topic) }
           val birds = last.copy(subTopic = tmp)
           stack = stack.init :+ birds
         case topic => stack += Tree(topic, questionGroupByTopic.getOrElse(topic, empty[String]), empty[Tree])

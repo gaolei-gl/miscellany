@@ -268,10 +268,53 @@
             </plugin>
 
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/scala-2.11/</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <!-- see http://davidb.github.com/scala-maven-plugin -->
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.2.0</version>
+                <configuration>
+                    <recompileMode>incremental</recompileMode>
+                    <args>
+                        <arg>-unchecked</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-explaintypes</arg>
+                    </args>
+                    <!--<launchers>-->
+                    <!--<launcher>-->
+                    <!--<id>main</id>-->
+                    <!--<mainClass>com.hinterstellar.citadel.CitadelMain</mainClass>-->
+                    <!--</launcher>-->
+                    <!--&lt;!&ndash; you could define other launcher &ndash;&gt;-->
+                    <!--</launchers>-->
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -282,14 +325,6 @@
                             <scalaVersion>${scala.version}</scalaVersion>
                         </configuration>
                     </execution>
-                    <!--<execution>-->
-                    <!--<id>java-compile-first</id>-->
-                    <!--<phase>process-resources</phase>-->
-                    <!--<goals>-->
-                    <!--<goal>add-source</goal>-->
-                    <!--<goal>compile</goal>-->
-                    <!--</goals>-->
-                    <!--</execution>-->
                     <execution>
                         <id>scala-test-compile</id>
                         <phase>process-test-resources</phase>
@@ -318,16 +353,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
 
             <plugin>
@@ -378,53 +403,6 @@
         </plugins>
     </build>
 
-
-    <repositories>
-        <!--<repository>-->
-        <!--<id>scala-tools.org</id>-->
-        <!--<url>http://scala-tools.org/repo-releases</url>-->
-        <!--<snapshots>-->
-        <!--<enabled>false</enabled>-->
-        <!--</snapshots>-->
-        <!--<releases>-->
-        <!--<updatePolicy>always</updatePolicy>-->
-        <!--</releases>-->
-        <!--</repository>-->
-
-        <!--<repository>-->
-        <!--<id>twitter</id>-->
-        <!--<url>http://maven.twttr.com/</url>-->
-        <!--<snapshots>-->
-        <!--<enabled>false</enabled>-->
-        <!--</snapshots>-->
-        <!--<releases>-->
-        <!--<updatePolicy>always</updatePolicy>-->
-        <!--</releases>-->
-        <!--</repository>-->
-
-        <!--<repository>-->
-        <!--<id>mvnrepository</id>-->
-        <!--<url>http://mvnrepository.com/</url>-->
-        <!--<snapshots>-->
-        <!--<enabled>false</enabled>-->
-        <!--</snapshots>-->
-        <!--<releases>-->
-        <!--<updatePolicy>always</updatePolicy>-->
-        <!--</releases>-->
-        <!--</repository>-->
-
-        <!--<repository>-->
-        <!--<id>novusRels</id>-->
-        <!--<name>repo.novus rels</name>-->
-        <!--<url>http://repo.novus.com/releases/</url>-->
-        <!--</repository>-->
-        <!--<repository>-->
-        <!--<id>novusSnaps</id>-->
-        <!--<name>repo.novus snaps</name>-->
-        <!--<url>http://repo.novus.com/snapshots/</url>-->
-        <!--</repository>-->
-    </repositories>
-
     <pluginRepositories>
         <pluginRepository>
             <id>mvnrepository</id>
@@ -436,17 +414,5 @@
                 <updatePolicy>always</updatePolicy>
             </releases>
         </pluginRepository>
-        <!--
-        <pluginRepository>
-            <id>twitter</id>
-            <url>http://maven.twttr.com/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </pluginRepository>
-        -->
     </pluginRepositories>
 </project>
