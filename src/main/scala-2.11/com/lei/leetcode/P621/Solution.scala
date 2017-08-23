@@ -59,7 +59,7 @@ object Solution {
     val n = reader.readInt() // 6
     val flattenTreeStr = reader.readLine() // Animals ( Reptiles Birds ( Eagles Pigeons Crows ) )
     val (root, index) = buildTree(flattenTreeStr, readQuestions)
-//    System.err.println("Finish build tree and index.")
+    //        System.err.println("Finish build tree and index.")
     readQueries.foreach {
       query: Query => {
         val reversePath = mutable.ListBuffer.empty[String]
@@ -109,14 +109,13 @@ object Solution {
         case "(" => stack += Tree("(", empty[String], empty[Tree])
         case ")" =>
           val tmp = ListBuffer.empty[Tree]
-          while (stack.length != 0 && stack.last != LEFTBRACKET) {
-            tmp += stack.last
-            stack = stack.init
-          }
-          stack = stack.init
-          val last = stack.last
+          val pos = stack.lastIndexOf(LEFTBRACKET)
+          for (i <- pos + 1 until stack.length) tmp += stack(i)
+          stack = stack.take(pos)
+          val last = stack(stack.length - 1)
           // mark index
           tmp.foreach { x => indexes += (x.topic -> last.topic) }
+          //          val birds = last.copy(questions = tmp.flatMap(_.questions), subTopic = tmp)
           val birds = last.copy(subTopic = tmp)
           stack = stack.init :+ birds
         case topic => stack += Tree(topic, questionGroupByTopic.getOrElse(topic, empty[String]), empty[Tree])
@@ -127,6 +126,5 @@ object Solution {
     }
     (Tree("root", empty[String], stack), indexes)
   }
-
 
 }
