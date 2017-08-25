@@ -44,7 +44,7 @@ case class AutoPush(
                      @Key("_id") id: ObjectId = new ObjectId
                    )
 
-case class User(seq_id: Int, accounts: Map[String, Map[String, String]], @Key("_id") id: ObjectId = new ObjectId)
+case class User(seq_id: Int, accounts: BasicDBObject, @Key("_id") id: ObjectId = new ObjectId)
 
 
 case class Topic(
@@ -81,11 +81,16 @@ object SalatDemo {
     //    ArticleDAO.update("seq_id" $eq 31741443, MongoDBObject("$set" -> MongoDBObject("usable" -> false)))
     object FuckDAO extends SalatDAO[Fuck, ObjectId](collection = MongoClient("localhost", 27017)("hinews_test")("fuck"))
     //    FuckDAO.update("title" $eq "hello", MongoDBObject("$inc" -> MongoDBObject("extra" -> 2)), true)
-//        FuckDAO.update(("title" $eq "fucka1gain") ++ ("extra" $eq 20), MongoDBObject("$inc" -> MongoDBObject("name" -> 2)), true)
+    //        FuckDAO.update(("title" $eq "fucka1gain") ++ ("extra" $eq 20), MongoDBObject("$inc" -> MongoDBObject("name" -> 2)), true)
 
     object MediaDAO extends SalatDAO[Media, ObjectId](collection = MongoClient("localhost", 27017)("hinews_test")("media"))
-    val isPartner = MediaDAO.findOne(("site_urls" $eq "www.indiatvnews.com") ++ ("is_partner" $eq true) ).isDefined
+    val isPartner = MediaDAO.findOne(("site_urls" $eq "www.indiatvnews.com") ++ ("is_partner" $eq true)).isDefined
     println(isPartner)
+
+    object UserDAO extends SalatDAO[User, ObjectId](collection = MongoClient("localhost", 27017)("hinews")("user"))
+    UserDAO.find(MongoDBObject.empty)
+      .map(user => (user.seq_id, user.accounts.collect { case (appType, tokens) => (appType, tokens.asInstanceOf[BasicDBObject].getString("id", "")) }))
+      .foreach(println)
 
   }
 
