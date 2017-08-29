@@ -1,4 +1,4 @@
-package com.lei.leetcode.P621
+package com.lei.hackerrank
 
 import scala.annotation.tailrec
 import scala.collection.mutable
