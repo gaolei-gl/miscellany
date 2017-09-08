@@ -54,7 +54,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>20.0</version>
         </dependency>
 
         <dependency>
@@ -127,6 +127,12 @@
             <groupId>com.github.cb372</groupId>
             <artifactId>scalacache-guava_2.11</artifactId>
             <version>0.9.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
         </dependency>
 
         <dependency>
