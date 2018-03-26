@@ -3,7 +3,7 @@ package com.lei.leetcode.P279
 import scala.collection.mutable
 
 // this is better, but still exceed time limitation.
-object Solution1 {
+object SolutionWithCache {
   def getSeq(n: Int) = {
     import math.sqrt
     val maxSquare = sqrt(n).toInt
@@ -33,7 +33,7 @@ object Solution1 {
   }
 
   def main(args: Array[String]): Unit = {
-    val a = com.lei.util.Utils.timeIt("")(numSquares(359))
+    val a = com.lei.util.Utils.timeIt("")(numSquares(3))
     println(a)
   }
 
