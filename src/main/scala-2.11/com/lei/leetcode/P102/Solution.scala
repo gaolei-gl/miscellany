@@ -1,17 +1,19 @@
-package com.lei.leetcode.binarytree
+package com.lei.leetcode.P102
+
+import com.lei.leetcode.P101
 
 import scala.collection.mutable
 
 class TreeNode(var _value: Int) {
   var value: Int = _value
-  var left: TreeNode = null
-  var right: TreeNode = null
+  var left: P101.TreeNode = null
+  var right: P101.TreeNode = null
 }
 
-object LevelOrderTraversal {
-  def levelOrder(root: TreeNode): List[List[Int]] = {
+object Solution {
+  def levelOrder(root: P101.TreeNode): List[List[Int]] = {
     var result = List.empty[List[Int]]
-    val queue = mutable.Queue.empty[TreeNode]
+    val queue = mutable.Queue.empty[P101.TreeNode]
     if (root == null) result
     else {
       queue.enqueue(root)
