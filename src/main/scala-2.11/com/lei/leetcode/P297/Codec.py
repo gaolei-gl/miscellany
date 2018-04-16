@@ -1,3 +1,4 @@
+# coding=utf-8
 class TreeNode(object):
     def __init__(self, x):
         self.val = x
@@ -9,6 +10,8 @@ class TreeNode(object):
 
 
 class Codec(object):
+    """数组解法"""
+
     def serialize(self, root):
         if root is None:
             return
@@ -98,6 +101,42 @@ class Codec2(object):
         return None
 
 
+class Codec3:
+
+    def serialize(self, root):
+        if root is None:
+            return
+        l = []
+
+        def pre_traverse(node):
+            if node is None:
+                l.append("#")
+            else:
+                l.append(str(node.val))
+                pre_traverse(node.left)
+                pre_traverse(node.right)
+
+        pre_traverse(root)
+        return ' '.join(l)
+
+    def deserialize(self, data):
+        if data is None:
+            return
+        assert isinstance(data, str)
+        ws = iter(data.split())
+
+        def build_tree():
+            val = next(ws)
+            if val == '#':
+                return None
+            root = TreeNode(int(val))
+            root.left = build_tree()
+            root.right = build_tree()
+            return root
+
+        return build_tree()
+
+
 if __name__ == '__main__':
     codec = Codec()
     # root = TreeNode(3)
@@ -136,8 +175,17 @@ if __name__ == '__main__':
     for i in range(1, 100):
         codec.serialize(n)
     print datetime.datetime.now() - start
+
     start = datetime.datetime.now()
     for i in range(1, 100):
         codec2.serialize(root)
-    r = codec.deserialize(codec.serialize(root))
     print datetime.datetime.now() - start
+    r = codec.deserialize(codec.serialize(root))
+
+    codec3 = Codec3()
+    start = datetime.datetime.now()
+    for i in range(1, 100):
+        codec3.serialize(root)
+    print datetime.datetime.now() - start
+    r = codec.deserialize(codec.serialize(root))
+    print codec3.serialize(root)
