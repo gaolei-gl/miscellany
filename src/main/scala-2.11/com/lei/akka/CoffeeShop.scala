@@ -97,7 +97,7 @@ class Barista extends Actor {
   import akka.util.Timeout
   import akka.pattern.ask
   import akka.pattern.pipe
-  import concurrent.duration._
+  import scala.concurrent.duration._
 
   implicit val timeout = Timeout(4.seconds)
   val register = context.actorOf(Props[Register], "Register")

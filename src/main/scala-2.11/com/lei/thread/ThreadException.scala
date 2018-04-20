@@ -5,14 +5,13 @@ package com.lei.thread
   */
 object ThreadException {
   def main(args: Array[String]): Unit = {
-    val task = new ThrowableTask {
-      () => {
-        println("abc")
-        3 / 0
-        println("cba")
-      }
+    def a = {
+      println("abc")
+      3 / 0
+      println("cba")
     }
 
+    val task = new ThrowableTask(a)
     val taskThread = new Thread(task)
     taskThread.start()
     Thread.sleep(2000)
@@ -27,8 +26,10 @@ class ThrowableTask(f: => Unit) extends Runnable {
 
   override def run(): Unit = {
     try {
-      Thread.sleep(1000)
+      Thread.sleep(100)
+      println("before ")
       f
+      println("after")
     }
     catch {
       case tt: Throwable =>
