@@ -2,46 +2,37 @@ package com.lei.leetcode.P5;
 
 
 public class Solution {
-    public static String longestPalindrome(String s) {
-        if (s == null || s.length() == 0) return "";
-        char[] reverse = new char[s.length()];
-        int n = s.length();
-        for (int i = 0; i <= n / 2; i++) {
-            reverse[n - i - 1] = s.charAt(i);
-            reverse[i] = s.charAt(n - i - 1);
+    int max = 0, begin = 0, end = 0;
+
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 2) return s;
+        for (int i = 0; i < s.length(); i++) {
+            // for odd
+            extendPalidrome(s, i, i);
+            // for even
+            extendPalidrome(s, i, i + 1);
         }
 
-        int begin = 0, end = 0;
-        int maxBegin = -1, maxEnd = -1, max = -1;
-        int i = 0;
-        while (i < n) {
-            if (reverse[i] == s.charAt(i)) {
-                begin = i;
-                i++;
-                while (i < n && reverse[i] == s.charAt(i)) i++;
-                end = i - 1;
+        return s.substring(begin, end + 1);
+    }
 
-                if ((end - begin) > max) {
-                    maxEnd = end;
-                    maxBegin = begin;
-                    max = end - begin;
-                }
-            } else {
-                i++;
-            }
+    private void extendPalidrome(String s, int x, int y) {
+        while (x >= 0 && y < s.length() && s.charAt(x) == s.charAt(y)) {
+            x--;
+            y++;
         }
-        if (maxEnd != -1)
-            return s.substring(maxBegin, maxEnd + 1);
-        else if (maxEnd == -1 && s.length() > 0) {
-            return s.substring(s.length() - 1);
-        } else
-            return "";
 
+        if (y - x - 1 >= max) {
+            max = y - x - 1;
+            begin = x + 1;
+            end = y - 1;
+        }
     }
 
     public static void main(String[] args) {
-        String data = "ab";
-        System.out.println(longestPalindrome(data));
+        String data = "ac";
+        Solution s = new Solution();
+        System.out.println(s.longestPalindrome(data));
 
     }
 }
