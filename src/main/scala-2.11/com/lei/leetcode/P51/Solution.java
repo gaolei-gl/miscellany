@@ -27,7 +27,7 @@ public class Solution {
 
         boolean check(int r, int c) {
             if (grid.get(r).contains("Q")) return false;
-            for (int i = 0; i <= r; i++) {
+            for (int i = 0; i < r; i++) {
                 String row = grid.get(i);
                 int col = row.indexOf("Q");
                 if (col == c) return false;
@@ -37,33 +37,41 @@ public class Solution {
             return true;
         }
 
+        void set(int r, int c) {
+            String s = this.grid.get(r);
+            this.grid.set(r, s.substring(0, c) + "Q" + s.substring(c + 1));
+        }
+
         void place(int r) {
-            if (this.grid.get(r).contains("Q")) {
+            if (r == SIZE) {
                 possibleWay.add(new ArrayList(this.grid));
-                this.init();
             } else {
                 for (int c = 0; c < SIZE; c++) {
                     if (!check(r, c)) continue;
                     String s = this.grid.get(r);
                     this.grid.set(r, s.substring(0, c) + "Q" + s.substring(c + 1));
                     place(r + 1);
+                    this.grid.set(r, s);
                 }
             }
         }
     }
 
-    private List<List<String>> solveNQueens(int n) {
+    List<List<String>> solveNQueens(int n) {
         Grid grid = new Grid(n);
-        for (int i = 0; i < n; i++) {
-            grid.place(i);
+        for (int i = 1; i < n; i++) {
+            grid.set(0, i - 1);
+            grid.place(1);
+            grid.init();
         }
+        grid.set(0, n - 1);
+        grid.place(1);
         return grid.possibleWay;
-
     }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        List<List<String>> ways = s.solveNQueens(5);
+        List<List<String>> ways = s.solveNQueens(8);
         for (List<String> ss : ways) {
             for (String vs : ss) {
                 System.out.println(vs);
