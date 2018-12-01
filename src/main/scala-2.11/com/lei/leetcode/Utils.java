@@ -12,4 +12,11 @@ public class Utils {
         }
         System.out.println();
     }
+
+    public static void displayList(int[] list) {
+        for (int t : list) {
+            System.out.print(t + " ");
+        }
+        System.out.println();
+    }
 }
