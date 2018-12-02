@@ -1,7 +1,5 @@
 package com.lei.leetcode.P3;
 
-import com.lei.leetcode.Utils;
-
 import java.util.Arrays;
 
 public class Solution {
