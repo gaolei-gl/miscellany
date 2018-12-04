@@ -20,9 +20,10 @@ class Solution {
                 marked[i] = new boolean[Y];
             }
 
-            this.grid = new char[X][];
-            for (int i = 0; i < X; i++)
-                this.grid[i] = Arrays.copyOf(grid[i], Y);
+//            this.grid = new char[X][];
+//            for (int i = 0; i < X; i++)
+//                this.grid[i] = Arrays.copyOf(grid[i], Y);
+            this.grid = grid;
 
             for (int x = 0; x < X; x++) {
                 for (int y = 0; y < Y; y++) {
