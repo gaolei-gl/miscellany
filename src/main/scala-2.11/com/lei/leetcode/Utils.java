@@ -19,4 +19,16 @@ public class Utils {
         }
         System.out.println();
     }
+
+    public static void displayList(int[][] list) {
+        for (int[] ls : list) {
+            displayList(ls);
+        }
+    }
+
+    public static <T> void display2List(List<List<T>> list) {
+        for (List<T> ts : list) {
+            displayList(ts);
+        }
+    }
 }
