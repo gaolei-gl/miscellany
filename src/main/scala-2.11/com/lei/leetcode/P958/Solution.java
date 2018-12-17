@@ -1,4 +1,4 @@
-package com.lei.leetcode.contest115;
+package com.lei.leetcode.P958;
 
 import com.lei.leetcode.TreeNode;
 
@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Solution958 {
+public class Solution {
     private class Node {
         public int idx;
         public TreeNode node;
@@ -36,7 +36,7 @@ public class Solution958 {
     }
 
     public static void main(String[] args) {
-        Solution958 s = new Solution958();
+        Solution s = new Solution();
         TreeNode root = new TreeNode(1);
         TreeNode two = new TreeNode(2);
         TreeNode three = new TreeNode(3);
