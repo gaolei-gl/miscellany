@@ -2,10 +2,10 @@ package com.lei.leetcode.P17;
 
 import java.util.*;
 
-public class Solution {
+public class Solution2 {
     final private Map<Character, String> map = new HashMap<>(9);
 
-    public Solution() {
+    public Solution2() {
         map.put('2', "abc");
         map.put('3', "def");
         map.put('4', "ghi");
@@ -17,27 +17,29 @@ public class Solution {
     }
 
     public List<String> letterCombinations(String digits) {
-        if(digits.isEmpty()) return new LinkedList<>();
+        if (digits.isEmpty()) return new LinkedList<>();
         List<String> res = new ArrayList<>();
-        res.add("");
-        res = letterCombinationsHelper(res, digits);
+        backtrack(res, "", 0, digits);
         return res;
     }
 
-    private List<String> letterCombinationsHelper(List<String> combinations, String digits) {
-        if (digits.isEmpty()) return combinations;
-        List<String> res = new LinkedList<>();
-        String chars = map.get(digits.charAt(0));
-        for (Character ch : chars.toCharArray())
-            for (String combination : combinations) {
-                res.add(combination + ch);
-            }
-        return letterCombinationsHelper(res, digits.substring(1));
+    private void backtrack(List<String> combinations, String pre, int idx, String digits) {
+        if (idx == digits.length()) {
+            combinations.add(pre);
+            return;
+        }
+        String s = map.get(digits.charAt(idx));
+        for (char c : s.toCharArray()) {
+            pre = pre + c;
+            backtrack(combinations, pre, idx + 1, digits);
+            pre = pre.substring(0, pre.length() - 1);
+        }
+
     }
 
 
     public static void main(String[] args) {
-        Solution s = new Solution();
+        Solution2 s = new Solution2();
         List<String> res = s.letterCombinations("269");
         Collections.sort(res);
         System.out.println(res.size());

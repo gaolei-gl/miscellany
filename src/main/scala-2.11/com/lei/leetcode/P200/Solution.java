@@ -15,14 +15,7 @@ class Solution {
         public CC(char[][] grid) {
             this.X = grid.length;
             this.Y = grid[0].length;
-            marked = new boolean[X][];
-            for (int i = 0; i < X; i++) {
-                marked[i] = new boolean[Y];
-            }
-
-//            this.grid = new char[X][];
-//            for (int i = 0; i < X; i++)
-//                this.grid[i] = Arrays.copyOf(grid[i], Y);
+            marked = new boolean[X][Y];
             this.grid = grid;
 
             for (int x = 0; x < X; x++) {
