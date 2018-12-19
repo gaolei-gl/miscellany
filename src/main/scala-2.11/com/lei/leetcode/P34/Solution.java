@@ -1,5 +1,7 @@
 package com.lei.leetcode.P34;
 
+import java.util.Arrays;
+
 public class Solution {
     public int[] searchRange(int[] A, int target) {
         int start = Solution.firstGreaterEqual(A, target);
@@ -27,5 +29,17 @@ public class Solution {
             }
         }
         return low;
+    }
+
+    /*
+        more concise, and easy to understand.
+     */
+    public int[] searchRange2(int[] nums, int target) {
+        int idx = Arrays.binarySearch(nums, target);
+        if(idx < 0) return new int[]{-1,-1};
+        int start = idx, end = idx;
+        while(start>0 && nums[start] == nums[start-1]) start--;
+        while(end<nums.length - 1 && nums[end] == nums[end+1]) end++;
+        return new int[]{start,end};
     }
 }
