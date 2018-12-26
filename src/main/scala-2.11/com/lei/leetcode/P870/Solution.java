@@ -4,13 +4,12 @@ import java.util.*;
 
 public class Solution {
     public int[] advantageCount(int[] A, int[] B) {
-        List<Integer> AA = new ArrayList<>(A.length);
-        for (int i1 : A) AA.add(i1);
+        List<Integer> AA = new ArrayList<Integer>() {{for (int i : A) add(i);}};
         Collections.sort(AA);
         int[] res = new int[A.length];
         for (int i = 0; i < A.length; i++) {
-            int idx = Collections.binarySearch(AA, B[i] + 1);      // see comment
-            if (idx < 0) idx = -idx - 1;
+            int idx = Collections.binarySearch(AA, B[i] + 1);
+            idx = idx < 0 ? -idx - 1: idx;
             if (idx < AA.size()) res[i] = AA.remove(idx);
             else res[i] = AA.remove(0);
         }
