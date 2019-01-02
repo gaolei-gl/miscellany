@@ -1,4 +1,4 @@
-package com.lei.leetcode;
+package com.lei.snippet;
 
 import java.util.Arrays;
 
