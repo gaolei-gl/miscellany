@@ -57,6 +57,7 @@ public class BuildBSTCountDistance {
     public static void main(String[] args) {
         BuildBSTCountDistance obj = new BuildBSTCountDistance();
         int a = obj.buildAndCount(new int[]{2, 0, 3, 5, 6, 4, 7, 8, 1}, 1, 4);
-        System.out.println(a);
+        int b = obj.buildAndCount(new int[]{5,6,3,1,2,4}, 1, 4);
+        System.out.println(b);
     }
 }
