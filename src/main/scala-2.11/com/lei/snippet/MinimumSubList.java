@@ -44,5 +44,6 @@ public class MinimumSubList {
         MinimumSubList obj = new MinimumSubList();
         Utils.displayList(obj.f("abcacbddefdmnm"));
         Utils.displayList(obj.f("aaa"));
+        Utils.displayList(obj.f("caedbdedda"));
     }
 }

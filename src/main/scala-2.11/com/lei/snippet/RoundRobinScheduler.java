@@ -1,4 +1,4 @@
-package com.lei.leetcode;
+package com.lei.snippet;
 
 import java.util.*;
 
@@ -20,10 +20,9 @@ public class RoundRobinScheduler {
         }
     }
 
-    Queue<Task> q;
 
     public double averageWaitTime(int[] arrival, int[] execution, int slice) {
-        q = new LinkedList<>();
+        Queue<Task> q = new LinkedList<>();
         List<Task> tasks = new ArrayList<>(arrival.length);
         for (int i = 0; i < arrival.length; i++) {
             tasks.add(new Task(arrival[i], execution[i]));
