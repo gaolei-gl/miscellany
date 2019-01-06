@@ -16,7 +16,7 @@ public class Solution2 {
         if (left == null) {
             return (1 << level) - 1;
         } else {
-            return countNodes(root.right) + 1 << level + countNodes(root.left);
+            return countNodes(root.right) + 1 + countNodes(root.left);
         }
     }
 
