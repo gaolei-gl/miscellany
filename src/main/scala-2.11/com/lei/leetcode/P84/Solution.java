@@ -12,21 +12,21 @@ public class Solution {
             } else {
                 while (!stack.isEmpty() && heights[stack.peek()] > heights[i]) {
                     int pre = stack.pop();
-                    max = Math.max(max, heights[pre] * (stack.isEmpty() ? pre + 1 : i - pre));
+                    max = Math.max(max, heights[pre] * (stack.isEmpty() ? i : i - stack.peek() - 1));
                 }
                 stack.push(i);
             }
         }
         while (!stack.isEmpty()) {
             int pre = stack.pop();
-            max = Math.max(max, heights[pre] * (stack.isEmpty() ? heights.length : heights.length - 1 - stack.peek()));
+            max = Math.max(max, heights[pre] * (stack.isEmpty() ? heights.length : heights.length - stack.peek() - 1));
         }
         return max;
     }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        System.out.println(s.largestRectangleArea(new int[]{4, 2, 0, 3, 2, 5}));
+        System.out.println(s.largestRectangleArea(new int[]{3, 6, 5, 7, 4, 8, 1, 0}));
         /*
         [1,2,3,4,5,3,3,2]
 [2,1,2]
