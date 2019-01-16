@@ -8,18 +8,26 @@ public class Solution {
     int count = 0;
 
     public int findTargetSumWays(int[] nums, int S) {
-        calculate(nums, 0, 0, S);
+        int[] sums = new int[nums.length];
+        sums[nums.length - 1] = nums[nums.length - 1];
+        for (int i = nums.length - 2; i >= 0; i--) {
+            sums[i] = sums[i + 1] + nums[i];
+        }
+        calculate(nums, 0, 0, S, sums);
         return count;
     }
 
-    public void calculate(int[] nums, int i, int sum, int S) {
+    public void calculate(int[] nums, int i, int sum, int S, int[] sums) {
         if (i == nums.length) {
             if (sum == S)
                 count++;
+        } else if (sums[i] + sum < S) {
+            return;
         } else {
-            calculate(nums, i + 1, sum + nums[i], S);
-            calculate(nums, i + 1, sum - nums[i], S);
+            calculate(nums, i + 1, sum + nums[i], S, sums);
+            calculate(nums, i + 1, sum - nums[i], S, sums);
         }
+
     }
 
     public int findTargetSumWays2(int[] nums, int S) {
