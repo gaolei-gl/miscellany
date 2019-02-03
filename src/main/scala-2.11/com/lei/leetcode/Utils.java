@@ -20,6 +20,13 @@ public class Utils {
         System.out.println();
     }
 
+    public static <T> void displayList(T[] list) {
+        for (T t : list) {
+            System.out.print(t);
+        }
+        System.out.println();
+    }
+
     public static void displayList(String[] list) {
         for (String t : list) {
             System.out.print(t + " ");
